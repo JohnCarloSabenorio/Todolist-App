@@ -1,9 +1,12 @@
+body{
+    background: #7C72ED;
+}
 .list-header{
-    color: white;
+    color: black;
 }
 
 .todo-div{
-    background: brown;
+    background: #D3C0ED;
     position: absolute;
     text-align: center;
     top: 50%;
@@ -13,10 +16,15 @@
     max-width: 700px;
     min-width: 300px;
     padding: 1.5em;
+    border: 2px solid black;
 }
 
 .task-div{
     margin-top: .5em;
+}
+
+.draggable{
+    cursor: move;
 }
 .task-item{
     padding: .5em;
