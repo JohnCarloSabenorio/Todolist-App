@@ -1,0 +1,29 @@
+{% include 'todoapp/header.html' %}
+
+{% include 'todoapp/navbar.html' %}
+{% block content %}
+<div>
+    <!-- <h1>Hello {{ user.username }}!</h1> -->
+</div>
+
+
+
+    <div class = "todo-div">
+        <h1 class = "list-header">Task list</h1>
+        <input type = "text" placeholder="Add Task here!" class = "input-task">
+        <button class = "add-btn" id = "add-task" onclick = "addTask()">Add New Task</button>
+        <div class = "task-div">
+            <p class = "draggable task-item" draggable= "true">1</p>
+            <p class = "draggable task-item" draggable= "true">2</p>
+            <p class = "draggable task-item" draggable= "true">3</p>
+
+        </div>
+    </div>
+
+
+
+{% endblock content %}
+{% include 'todoapp/footer.html' %}
+
+
+

@@ -1,0 +1,25 @@
+.list-header{
+    color: white;
+}
+
+.todo-div{
+    background: brown;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    max-width: 700px;
+    min-width: 300px;
+    padding: 1.5em;
+}
+
+.task-div{
+    margin-top: .5em;
+}
+.task-item{
+    padding: .5em;
+    background: white;
+}
+
