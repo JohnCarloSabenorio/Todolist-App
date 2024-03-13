@@ -24,6 +24,7 @@ body{
 }
 
 .draggable{
+    margin: .5em;
     cursor: move;
 }
 .task-item{
@@ -33,4 +34,9 @@ body{
 
 .draggable.dragging{
     opacity: 0.5;
+}
+
+.task-desc{
+    text-align: center;
+    border: none;
 }

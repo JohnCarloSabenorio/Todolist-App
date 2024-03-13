@@ -8,17 +8,17 @@
 
 
 
-    <div class = "todo-div">
-        <h1 class = "list-header">Task list</h1>
-        <input type = "text" placeholder="Add Task here!" class = "input-task">
-        <button class = "add-btn" id = "add-task" onclick = "addTask()">Add New Task</button>
-        <button class = "save-btn" id = "save-todolist">Save</button>
-        <div class = "task-div">
-            <p class = "draggable task-item" draggable= "true" id = "task-1">1</p>
-            <p class = "draggable task-item" draggable= "true" id = "task-2">2</p>
-            <p class = "draggable task-item" draggable= "true" id = "task-3">3</p>
-        </div>
+<div class = "todo-div">
+    <h1 class = "list-header">Task list</h1>
+    <input type = "text" placeholder="Add Task here!" class = "input-task">
+    <button class = "add-btn" id = "add-task" onclick = "addTask(document.querySelector('.task-div'))">Add New Task</button>
+    <button class = "save-btn" id = "save-todolist">Save</button>
+    <div class = "task-div">
+        <div class = "draggable task-item" draggable= "true" id = "task-1"><input type = "text" class = "task-desc" value = "1"></div>
+        <div class = "draggable task-item" draggable= "true" id = "task-2"><input type = "text" class = "task-desc" value = "2"></div>
+        <div class = "draggable task-item" draggable= "true" id = "task-3"><input type = "text" class = "task-desc" value = "3"></div>
     </div>
+</div>
 
 
 

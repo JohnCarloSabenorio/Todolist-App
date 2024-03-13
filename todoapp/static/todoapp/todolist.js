@@ -1,48 +1,71 @@
 const addBtn = document.getElementById('add-task');
 let draggables = document.querySelectorAll('.draggable');
 const taskContainer = document.querySelector('.task-div');
+let currentTaskCount = draggables.length;
 
 
+addContainerListener(taskContainer);
 draggables.forEach(draggable => {
-    draggable.addEventListener('dragstart', () =>{
-        draggable.classList.add('dragging');
-    });
-
-    draggable.addEventListener('dragend', ()=> {
-        draggables = document.querySelectorAll('.draggable');
-        draggable.classList.remove("dragging");
-        updateTaskOrder(draggables);
-    });
-
-    taskContainer.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        const afterElement = getDragAfterElement(taskContainer, e.clientY);
-        const dragTask = document.querySelector('.dragging');
-        if (afterElement == null){
-            taskContainer.appendChild(dragTask);
-        }
-        else{
-            taskContainer.insertBefore(dragTask, afterElement);
-        }
-    });
+    addDragstartListener(draggable);
+    addDragEndListener(draggable);
 });
 
-
-
-function addTask(){
-    alert("Adding a task!");
+// Checks if a task is being dragged and switches position when a task is dropped on top of another.
+function addContainerListener(container){
+    container.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(container, e.clientY);
+        const dragTask = document.querySelector('.dragging');
+        if (afterElement == null){
+            container.appendChild(dragTask);
+        }
+        else{
+            container.insertBefore(dragTask, afterElement);
+        }
+    });
 }
 
-function updateTaskOrder(tasks){
-    console.log(tasks);
+// Removes dragging class from the task
+function addDragEndListener(item){
+    item.addEventListener('dragend', ()=> {
+        draggables = document.querySelectorAll('.draggable');
+        item.classList.remove("dragging");
+        updateTasks(draggables);
+    });  
+}
 
+// Adds dragging class from the task
+function addDragstartListener(item){
+    item.addEventListener('dragstart', () =>{
+        item.classList.add('dragging');
+    });
+}
+
+function addTask(container){
+    const newDiv = document.createElement("div");
+    newDiv.classList.add('draggable');
+    newDiv.classList.add('task-item');
+    newDiv.draggable = true;
+    currentTaskCount++;
+    newDiv.id = 'task-' + currentTaskCount; 
+    newDiv.innerHTML = currentTaskCount;
+    addDragstartListener(newDiv);
+    addDragEndListener(newDiv);
+    container.appendChild(newDiv);  
+}
+
+
+function updateTasks(tasks){
+    console.log(tasks);
     let taskCount = 1;
     for(let i = 0; i < tasks.length; i++){
         tasks[i].id = 'task-' + taskCount;
         taskCount++;
     }
+
 }
 
+// Gets the task that the item is being dragged to.
 function getDragAfterElement(container, y){
     const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
     return draggableElements.reduce((closest, child)=>{
