@@ -8,4 +8,5 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(template_name='todoapp/logout.html'), name = "logout"),
     path("register/", views.register, name = "register"),
     path("home/", views.home, name = "home"),
+    path("save/", views.saveTasks, name = "save"),
 ]

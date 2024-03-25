@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
 # Create your models here.
 
 class CustomUser(AbstractUser):
@@ -10,8 +9,10 @@ class CustomUser(AbstractUser):
 class Task(models.Model):
     def __str__(self):
         return self.title
-    title = models.CharField(max_length = 30)
+    title = models.CharField(max_length = 50)
     description = models.CharField(max_length = 70)
+    order = models.IntegerField()
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='tasks')
     priority = models.IntegerField(choices=[(1, 'High'), (2, 'Medium'), (3, 'Low')], default=2) 
     deadline = models.DateTimeField(null = True, blank = True) # Allows the task to have no set deadline
     completed = models.BooleanField(default = False)

@@ -9,6 +9,5 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(template_name='todoapp/logout.html'), name = "logout"),
     path("register/", user_views.register, name = "register"),
     path("home/", user_views.home, name = "home"),
-    # path('', include("todoapp.urls")),
-
+    path("savetasks", user_views.saveTasks, name = "save"),
 ]
