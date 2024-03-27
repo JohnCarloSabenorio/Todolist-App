@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import CustomUserform
@@ -51,10 +51,15 @@ def saveTasks(request):
 
 @login_required
 def deleteTask(request):
-    return HttpResponse("task deleted!")
-    task = request.POST.get('task')
-    user = request.user
-    id = user.id
+    if request.method == "POST":
+        task_id = request.POST.get('task_id')
+        try:
+            task = Task.objects.get(pk=task_id)
+            task.delete()
+            return JsonResponse({'status' : f"task: '{task.title}' Deleted!"})
+        except:
+            return JsonResponse({'status' : "Error occurred when deleting task!"})
+
     
     
 # # Checks for errors in usernames

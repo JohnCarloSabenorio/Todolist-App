@@ -63,6 +63,23 @@ body{
     display: flex;
     align-items: center;
 }
+
+.confdel-modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: gray;
+    z-index: 1;
+    border: 2px solid black;
+    padding: 1em;
+    display: none;
+}
+.modal-btn{
+    padding: .5em;
+    border: none;
+    border-radius: .3em;
+}
 @media (max-width: 1000px){
     .todo-div{
         width: 100%;
@@ -70,3 +87,4 @@ body{
         border-radius: none;
     }
 }
+

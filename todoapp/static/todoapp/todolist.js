@@ -3,7 +3,8 @@ let draggables = document.querySelectorAll('.draggable');
 const taskContainer = document.querySelector('.task-div');
 let currentTaskCount = draggables.length;
 let delBtns = document.querySelectorAll('.del-btn');
-
+const delModal = document.querySelector(".confdel-modal");
+const yesBtn = document.querySelector('.yes-btn');
 delBtns.forEach((btn) => {
     addDelTaskListener(btn);
 });
@@ -99,14 +100,20 @@ function addTask(container){
     container.appendChild(newDiv);  
 }
 
-
+// fix this
 function updateTasks(tasks){
-    console.log(tasks);
     let taskCount = 1;
     for(let i = 0; i < tasks.length; i++){
-        tasks.classList[4] = 'order-' + taskCount;
+        // Converts task classlist to array to remove a class using index
+        let classToDelete = Array.from(tasks[i].classList)[4];
+        tasks[i].classList.remove(classToDelete);
+
+        //reorders tasks
+        tasks[i].classList.add('order-' + taskCount)
         taskCount++;
     }
+    console.log(tasks);
+
 
 }
 
@@ -125,14 +132,63 @@ function getDragAfterElement(container, y){
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
+
 function addDelTaskListener(btn){
     btn.addEventListener('click', (e) => {
         e.preventDefault();
+        showDelModal();
         task_id = btn.parentNode.parentNode.id;
         console.log(task_id);
         delete_data = new FormData();
         delete_data.append("task_id", task_id);
-
         
+        yesBtn.addEventListener("click", () => deleteTask(delete_data, task_id));
     });
+}
+ 
+
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+async function deleteTask(delete_data, delete_id){
+    const response = await fetch('/delTasks', {
+        method : "POST",
+        headers: {
+            "X-CSRFToken" : getCookie("csrftoken"),
+        },
+        body: delete_data
+    }).then(response => response.json())
+    .then(data => {
+        console.log(data);
+
+        //Deletes the displayed task 
+        const deletedTask = document.getElementById(delete_id);
+        deletedTask.parentNode.removeChild(deletedTask);
+
+        //Updates the order of the tasks after deleting an item
+        draggables = document.querySelectorAll('.draggable');
+        updateTasks(draggables);
+        hideDelModal();
+    });
+}   
+function showDelModal(){
+    delModal.style.display = "block";
+}
+
+function hideDelModal(){
+    delModal.style.display = "none";
 }

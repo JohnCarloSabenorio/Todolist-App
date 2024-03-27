@@ -7,11 +7,20 @@
 </div>
 
 
+<div class = "confdel-modal">
+    <h4>Are you sure you want to delete this task?</h4>
+    <div class = "btn-div">
+        <button class = "yes-btn modal-btn">Yes</button>
+        <button class = "no-btn modal-btn" onclick = "hideDelModal()">No</button>
+    </div>
+
+</div>
 
 <div class = "todo-div">
     <h1 class = "list-header">Task list</h1>
     <input type = "text" placeholder="Add Task here!" class = "input-task">
     <button class = "add-btn" id = "add-task" onclick = "addTask(document.querySelector('.task-div'))">Add New Task</button>
+    
     <input type = "submit" class = "save-btn" id = "save-todolist" value = "save" form = "task-form">
     <form id = "task-form" method = "POST" action = "{% url 'save' %}">
         {% csrf_token %}
