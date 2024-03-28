@@ -27,8 +27,8 @@
         <div class = "container task-div">
             {% for task in tasks %}
                     <div class = "row draggable task-item justify-content-center order-{{ forloop.counter }}" draggable= "true" id = "{{ task.id }}">
-                        <div class = "col-8 taskinp-div"><input type = "text" name = "task" class = "task-desc" value = "{{ task }}"></div>
-                        <div class = "col btn-div"><button class = "task-btn del-btn">Delete</button><button class = "task-btn edit-btn">Edit</button></div>
+                    <div class = "col-8 taskinp-div"><input type = "text" name = "task" class = "task-desc" value = "{{ task }}" disabled></div>
+                    <div class = "col btn-div"><button class = "task-btn del-btn">Delete</button><button type = "button" class = "task-btn edit-btn">Edit</button></div>
 
                     </div>
             {% endfor %}

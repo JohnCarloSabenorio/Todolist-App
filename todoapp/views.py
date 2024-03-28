@@ -38,10 +38,11 @@ def home(request):
 
 @login_required
 def saveTasks(request):
-    task_array = request.POST.getlist('task')
-    user = request.user
-    id = user.id 
+    # task_array = request.POST.getlist('task')
 
+    return JsonResponse(request.POST)
+    user = request.user
+    id = user.id
     # Revise this, check Gemini for possible solutions
     for i in range(0, len(task_array)):
         if not Task.objects.filter(title = task_array[i]).exists():
@@ -58,7 +59,7 @@ def deleteTask(request):
             task.delete()
             return JsonResponse({'status' : f"task: '{task.title}' Deleted!"})
         except:
-            return JsonResponse({'status' : "Error occurred when deleting task!"})
+            return JsonResponse({'status' : "Element deleted is not saved in the database!"})
 
     
     
