@@ -1,4 +1,5 @@
 const addBtn = document.getElementById('add-task');
+const saveBtn = document.querySelector('.save-btn');
 let draggables = document.querySelectorAll('.draggable');
 const taskContainer = document.querySelector('.task-div');
 let currentTaskCount = draggables.length;
@@ -7,44 +8,48 @@ let editBtns = document.querySelectorAll('.edit-btn');
 const delModal = document.querySelector(".confdel-modal");
 const yesBtn = document.querySelector('.yes-btn');
 const inputTask = document.querySelector('.input-task');
-const taskForm = document.getElementById('task-form');
+let newTaskCount = 0
 
-taskForm.addEventListener('submit', (e) => {    
-    e.preventDefault();
-    taskDesc = document.querySelectorAll('.task-desc');
-    task_titles = [];
-    task_orders = [];
+saveBtn.addEventListener('click', (e) => {    
+    saveBtn.disabled = true;
+    saveTasks();
 
-    taskDesc.forEach((task) => {
-        task_titles.push(task.value);
-        let order = Array.from(task.parentNode.parentNode.classList)[4];
-        task_orders.push(parseInt(order.charAt(order.length -1)));
-    });
-
-    console.log(task_titles);
-    console.log(task_orders);
-
-
-    data = new FormData();
-    data.append('tasks', task_titles);
-    saveTasks(data);
 
 });
 
-async function saveTasks(save_data){
-    const response = fetch('/savetasks', {
-        method : "POST",
-        headers: {
-            "X-CSRFToken" : getCookie("csrftoken"),
-        },
-        body: save_data
-    }).then(response => console.log(response.json()))
-    .then(data => {
-        console.log(data)
+async function saveTasks() {
+    taskDesc = document.querySelectorAll('.task-item');
+
+    saveData = {};
+
+    taskDesc.forEach((task) => {
+        task_title = task.querySelector('.task-desc').value;
+        task_order = task.classList.item(4);
+        saveData[task.id] = [task_title, task_order[task_order.length-1]];
     });
 
-    return true;
+    data = new FormData();
+    data.append('tasks', saveData);
+    try {
+      const response = await fetch('/savetasks', {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: JSON.stringify(saveData), // Use JSON.stringify for stringify data
+      });
+      const data = await response.json();
+
+
+      console.log("Status:", data['status']); // Log data after successful parsing
+  
+      return true;
+    } catch (error) {
+      console.error("Error saving tasks:", error); // Handle errors
+      return false;
+    }
 }
+
 delBtns.forEach((btn) => {
     addDelTaskListener(btn);
 });
@@ -82,7 +87,7 @@ function addDragEndListener(item){
     item.addEventListener('dragend', ()=> {
         draggables = document.querySelectorAll('.draggable');
         item.classList.remove("dragging");
-        updateTasks(draggables);
+        updateOrder(draggables);
     });  
 }
 
@@ -97,6 +102,7 @@ function addTask(container){
     
     //creates a draggable box
     currentTaskCount++;
+    newTaskCount++;
     const newDiv = document.createElement("div");
     newDiv.classList.add('row');
     newDiv.classList.add('draggable');
@@ -150,13 +156,16 @@ function addTask(container){
     newDiv.appendChild(btnDiv);
     addDragstartListener(newDiv);
     addDragEndListener(newDiv);
+    newDiv.id = "new-task-" + newTaskCount;
     container.appendChild(newDiv);  
-
     inputTask.value = "";
+
+
+    saveTasks();
 }
 
 // fix this
-function updateTasks(tasks){
+function updateOrder(tasks){
     let taskCount = 1;
     for(let i = 0; i < tasks.length; i++){
         // Converts task classlist to array to remove a class using index
@@ -168,8 +177,8 @@ function updateTasks(tasks){
         taskCount++;
     }
 
+    saveTasks();
 }
-
 // Gets the task that the item is being dragged to.
 function getDragAfterElement(container, y){
     const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
@@ -191,7 +200,6 @@ function addDelTaskListener(btn){
         e.preventDefault();
         showDelModal();
         task_id = btn.parentNode.parentNode.id;
-        console.log(task_id);
         delete_data = new FormData();
         delete_data.append("task_id", task_id);
         
@@ -227,7 +235,7 @@ async function deleteTask(delete_data, delete_id, btn){
         body: delete_data
     }).then(response => response.json())
     .then(data => {
-        console.log(data)
+        console.log(data['status']);
     });
     //Deletes the displayed task 
     // const deletedTask = document.getElementById(delete_id);
@@ -238,10 +246,11 @@ async function deleteTask(delete_data, delete_id, btn){
 
     //Updates the order of the tasks after deleting an item
     draggables = document.querySelectorAll('.draggable');
-    updateTasks(draggables);
+    updateOrder(draggables);
     console.log('element deleted!');
     hideDelModal();
 
+    return true;
 }
 
 function editTask(task_input){

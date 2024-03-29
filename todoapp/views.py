@@ -5,6 +5,7 @@ from .forms import CustomUserform
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Task
+import json
 # Create your views here.
 
 
@@ -33,22 +34,28 @@ def register(request):
 
 @login_required
 def home(request):
-    tasks = Task.objects.all()
+    tasks = Task.objects.all().order_by('order')
+
     return render(request, "todoapp/home.html", {'tasks' : tasks})
 
 @login_required
 def saveTasks(request):
-    # task_array = request.POST.getlist('task')
-
-    return JsonResponse(request.POST)
+    task_array = json.loads(request.body)
+    print(task_array)
     user = request.user
     id = user.id
-    # Revise this, check Gemini for possible solutions
-    for i in range(0, len(task_array)):
-        if not Task.objects.filter(title = task_array[i]).exists():
-            new_task = Task(title = task_array[i], user_id = id, order = i+1)
+    for key in task_array:
+        if "new-task" in key:
+            new_task = Task(title = task_array[key][0], user_id = id, order = task_array[key][1])
             new_task.save()
-    return redirect('home')
+        else:
+            record = Task.objects.get(pk=int(key))
+            record.title = task_array[key][0]
+            record.order = task_array[key][1]
+            record.save()
+
+    return JsonResponse({"status" : "Tasks Saved!"})
+    
 
 @login_required
 def deleteTask(request):
