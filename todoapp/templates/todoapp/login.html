@@ -13,14 +13,14 @@
         <form action = "{% url 'login' %}" method = "POST">
             {% csrf_token %}
             <fieldset class = "form-group">
-                <legend class = "border-bottom mb-4 div-header">Log In</legend>
+                <legend class = "border-bottom border-dark mb-4 py-2 div-header">Log In</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class = "form-group btn-div my-3">
-                <button class = "btn btn-outline-info" type = "submit" class = "submit-btn">Login</button>
+                <button class = "btn btn-primary" type = "submit" class = "submit-btn">Login</button>
             </div>
         </form>
-        <div class = "border-top pt-3">
+        <div class = "border-top border-dark mb-4 py-2">
             <p class = "redirect-txt">Don't have an account? <a href = "{% url 'register' %}">Register Here</a>.</p>
         </div>
     </div>

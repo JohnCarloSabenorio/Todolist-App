@@ -1,20 +1,33 @@
 body,html{
-    min-width: 100vw;
-    min-height: 100vh;
     margin: 0;
     padding: 0;
-    background: white;
+    background: #2264F5;
 }
 
+.register-div, .form-div{
+    background: #00F55C;
+    padding: 3em;
+    border: 3px solid black;
+    border-radius: .5em;
+    width: 60%;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+.register-div{
+    margin:auto;
+    margin-top: 2em;
+    margin-bottom: 2em;
+
+}
+
+
+br{
+    color: black;
+}
 .form-div{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60%;
-    padding: 3em;
-    border-radius: 1em;
-    border: 3px solid black;
 }
 
 .div-header, .redirect-txt, .btn-div{
@@ -36,9 +49,11 @@ body,html{
 }
 
 @media (max-width: 850px){
-    .form-div{
+    .form-div, .register-div{
         width: 100%;
         border: none;
-        border-radius: none;
+        border-top: 3px solid black;
+        border-bottom: 3px solid black;
+        border-radius: 0; 
     }
 }

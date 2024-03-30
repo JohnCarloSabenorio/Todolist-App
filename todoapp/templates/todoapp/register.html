@@ -1,18 +1,18 @@
 {% include 'todoapp/header.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class = "form-div">
+    <div class = "register-div">
         <form action = "{% url 'register' %}" method = "POST">
             {% csrf_token %}
             <fieldset class = "form-group">
-                <legend class = "border-bottom mb-4 div-header">Register</legend>
+                <legend class = "border-bottom border-dark mb-4 py-2 div-header">Register</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class = "form-group btn-div my-3">
-                <button class = "btn btn-outline-info" type = "submit" class = "submit-btn">Register</button>
+                <button class = "btn btn-primary" type = "submit" class = "submit-btn">Register</button>
             </div>
         </form>
-        <div class = "border-top pt-3">
+        <div class = "border-top border-dark pt-3">
             <p class = "redirect-txt">Already have an account? <a href = "{% url 'login' %}">Login Here</a>.</p>
         </div>
     </div>
