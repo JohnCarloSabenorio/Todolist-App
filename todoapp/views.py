@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import CustomUserform
@@ -6,13 +6,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Task
 import json
+
 # Create your views here.
-
-
-def login(request):
-    if request.user.is_authenticated:
-        return redirect('home')
+  
     
+def login(request):
     return render(request, "todoapp/login.html", {})
 
 def register(request):
@@ -45,28 +43,34 @@ def saveTasks(request):
     user = request.user
     id = user.id
     for key in task_array:
-        if "new-task" in key:
-            new_task = Task(title = task_array[key][0], user_id = id, order = task_array[key][1])
-            new_task.save()
-        else:
             record = Task.objects.get(pk=int(key))
             record.title = task_array[key][0]
             record.order = task_array[key][1]
             record.save()
 
-    return JsonResponse({"status" : "Tasks Saved!"})
+    return JsonResponse({"status" : "Tasks updated!"})
     
+@login_required
+def addTask(request):
+    title = request.POST.get('title')
+    order = request.POST.get('order')
+    user = request.user
+    id = user.id
+    new_task = Task(title = title, user_id = id, order = order)
+    new_task.save()
+    return JsonResponse({"status" : "Task added to db!", 'id' : new_task.pk})
+
 
 @login_required
 def deleteTask(request):
     if request.method == "POST":
         task_id = request.POST.get('task_id')
-        try:
-            task = Task.objects.get(pk=task_id)
-            task.delete()
-            return JsonResponse({'status' : f"task: '{task.title}' Deleted!"})
-        except:
-            return JsonResponse({'status' : "Element deleted is not saved in the database!"})
+        task = Task.objects.get(pk=task_id)
+        task.delete()
+        return JsonResponse({'status' : f"task: '{task.title}' Deleted!"})
+    else:
+        return redirect('home')
+
 
     
     

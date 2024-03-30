@@ -1,25 +1,19 @@
 body{
-    background: #7C72ED;
+    background: #2264F5;
+    text-align: center;
+    font-size: 18px;
 }
 .list-header{
     color: black;
 }
 
-.todo-div{
-    background: #D3C0ED;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
-    min-width: 300px;
-    padding: 1.5em;
-    border: 2px solid black;
+.todo-div::-webkit-scrollbar{
+    display: none;
 }
 
 .task-div{
     margin-top: .5em;
+
 }
 
 .draggable{
@@ -28,8 +22,11 @@ body{
 }
 .task-item{
     padding: .5em;
+    margin: 1em;
     border-radius:.5em;
-    background: white;
+    background: #00F55C;
+    border: 2px solid black;
+    font-size: 22px;
 }
 
 .draggable.dragging{
@@ -64,17 +61,6 @@ body{
     align-items: center;
 }
 
-.confdel-modal{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: gray;
-    z-index: 1;
-    border: 2px solid black;
-    padding: 1em;
-    display: none;
-}
 .modal-btn{
     padding: .5em;
     border: none;
@@ -83,6 +69,7 @@ body{
 @media (max-width: 1000px){
     .todo-div{
         width: 100%;
+        height: 100%;
         border: none;
         border-radius: none;
     }

@@ -1,25 +1,15 @@
 const addBtn = document.getElementById('add-task');
-const saveBtn = document.querySelector('.save-btn');
 let draggables = document.querySelectorAll('.draggable');
 const taskContainer = document.querySelector('.task-div');
 let currentTaskCount = draggables.length;
 let delBtns = document.querySelectorAll('.del-btn');
 let editBtns = document.querySelectorAll('.edit-btn');
-const delModal = document.querySelector(".confdel-modal");
 const yesBtn = document.querySelector('.yes-btn');
 const inputTask = document.querySelector('.input-task');
 let newTaskCount = 0
 
-saveBtn.addEventListener('click', (e) => {    
-    saveBtn.disabled = true;
-    saveTasks();
-
-
-});
-
 async function saveTasks() {
     taskDesc = document.querySelectorAll('.task-item');
-
     saveData = {};
 
     taskDesc.forEach((task) => {
@@ -45,7 +35,7 @@ async function saveTasks() {
   
       return true;
     } catch (error) {
-      console.error("Error saving tasks:", error); // Handle errors
+      console.log("Error saving tasks:", error); // Handle errors
       return false;
     }
 }
@@ -57,7 +47,7 @@ delBtns.forEach((btn) => {
 editBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         task_input = btn.parentNode.parentNode.querySelector('.task-desc');
-        editTask(task_input);
+        editTask(task_input, btn);
     });
 });
 
@@ -109,6 +99,7 @@ function addTask(container){
     newDiv.classList.add('task-item');
     newDiv.classList.add('justify-content-center');
     newDiv.classList.add('order-' + currentTaskCount); 
+    newDiv.classList.add('new-task'); 
     newDiv.draggable = true;
 
 
@@ -121,6 +112,7 @@ function addTask(container){
     const newInput = document.createElement('input');
     newInput.type = "text";
     newInput.name = "task";
+    newInput.disabled = true;
     newInput.classList.add("task-desc");
     newInput.value = inputTask.value;
 
@@ -144,7 +136,7 @@ function addTask(container){
 
     editBtn.addEventListener("click", () => {
         task_input = editBtn.parentNode.parentNode.querySelector('.task-desc');
-        editTask(task_input);
+        editTask(task_input, editBtn);
     });    
     
     addDelTaskListener(delBtn);
@@ -158,10 +150,16 @@ function addTask(container){
     addDragEndListener(newDiv);
     newDiv.id = "new-task-" + newTaskCount;
     container.appendChild(newDiv);  
-    inputTask.value = "";
+
+    addData = new FormData();
+    addData.append('title', inputTask.value);
+    addData.append('order', currentTaskCount);
+
+    addToDb(addData, newDiv);
 
 
-    saveTasks();
+
+
 }
 
 // fix this
@@ -198,12 +196,10 @@ function getDragAfterElement(container, y){
 function addDelTaskListener(btn){
     btn.addEventListener('click', (e) => {
         e.preventDefault();
-        showDelModal();
         task_id = btn.parentNode.parentNode.id;
         delete_data = new FormData();
         delete_data.append("task_id", task_id);
-        
-        yesBtn.addEventListener("click", () => deleteTask(delete_data, task_id, btn));
+        deleteTask(delete_data, task_id, btn);
     });
 }
  
@@ -225,6 +221,25 @@ function getCookie(name) {
     return cookieValue;
 }
 
+
+
+async function addToDb(addData, newDiv){
+    const response = await fetch('/addTask', {
+        method : "POST",
+        headers: {
+            "X-CSRFToken" : getCookie("csrftoken"),
+        },
+        body: addData
+    }).then(response => response.json())
+    .then(data => {
+        console.log(data['status']);
+        console.log(data['id']);
+        inputTask.value = "";
+        newDiv.id = data['id'];
+
+    });
+}
+
 async function deleteTask(delete_data, delete_id, btn){
     btn.disabled = true;
     const response = await fetch('/delTasks', {
@@ -236,33 +251,30 @@ async function deleteTask(delete_data, delete_id, btn){
     }).then(response => response.json())
     .then(data => {
         console.log(data['status']);
+        const el = btn.parentNode.parentNode;
+        el.remove();
+
+        //Updates the order of the tasks after deleting an item
+        draggables = document.querySelectorAll('.draggable');
+        updateOrder(draggables);
+        console.log('element deleted!');
     });
-    //Deletes the displayed task 
-    // const deletedTask = document.getElementById(delete_id);
-    // deletedTask.parentNode.removeChild(deletedTask);
 
-    const el = btn.parentNode.parentNode;
-    el.remove();
-
-    //Updates the order of the tasks after deleting an item
-    draggables = document.querySelectorAll('.draggable');
-    updateOrder(draggables);
-    console.log('element deleted!');
-    hideDelModal();
-
-    return true;
 }
 
-function editTask(task_input){
-    task_input.disabled = task_input.disabled == true ? false : true;
+function editTask(task_input,btn){
+
+    if(task_input.disabled == true){
+        task_input.disabled = false;
+        btn.textContent = "Save";
+    }
+    else{
+        saveTasks();
+        task_input.disabled = true;
+        btn.textContent = "Edit";
+    }
     task_input.focus();
 }
 
 
-function showDelModal(){
-    delModal.style.display = "block";
-}
 
-function hideDelModal(){
-    delModal.style.display = "none";
-}

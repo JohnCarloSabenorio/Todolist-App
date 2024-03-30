@@ -6,36 +6,21 @@
     <!-- <h1>Hello {{ user.username }}!</h1> -->
 </div>
 
+<h1 class = "list-header">Task list</h1>
+<input type = "text" placeholder="Add Task here!" class = "input-task">
+<button class = "add-btn" id = "add-task" onclick = "addTask(document.querySelector('.task-div'))">Add New Task</button>
 
-<div class = "confdel-modal">
-    <h4>Are you sure you want to delete this task?</h4>
-    <div class = "btn-div">
-        <button class = "yes-btn modal-btn">Yes</button>
-        <button class = "no-btn modal-btn" onclick = "hideDelModal()">No</button>
-    </div>
-
+<div class = "container task-div">
+    {% for task in tasks %}
+            <div class = "row draggable task-item justify-content-center order-{{ forloop.counter }}" draggable= "true" id = "{{ task.id }}">
+                <div class = "col-8 taskinp-div"><input type = "text" name = "task" class = "task-desc" value = "{{ task }}" disabled></div>
+                <div class = "col btn-div">
+                    <button class = "task-btn del-btn">Delete</button>
+                    <button type = "button" class = "task-btn edit-btn">Edit</button>
+                </div>
+            </div>
+    {% endfor %}
 </div>
-
-<div class = "todo-div">
-    <h1 class = "list-header">Task list</h1>
-    <input type = "text" placeholder="Add Task here!" class = "input-task">
-    <button class = "add-btn" id = "add-task" onclick = "addTask(document.querySelector('.task-div'))">Add New Task</button>
-    
-    <input type = "submit" class = "save-btn" id = "save-todolist" value = "save">
-
-        <div class = "container task-div">
-            {% for task in tasks %}
-                    <div class = "row draggable task-item justify-content-center order-{{ forloop.counter }}" draggable= "true" id = "{{ task.id }}">
-                    <div class = "col-8 taskinp-div"><input type = "text" name = "task" class = "task-desc" value = "{{ task }}" disabled></div>
-                    <div class = "col btn-div"><button class = "task-btn del-btn">Delete</button><button type = "button" class = "task-btn edit-btn">Edit</button></div>
-
-                    </div>
-            {% endfor %}
-            <!-- <div class = "draggable task-item" draggable= "true" id = "task-2"><input type = "text" name = "task" class = "task-desc" value = "I am the only"></div> -->
-            <!-- <div class = "draggable task-item" draggable= "true" id = "task-3"><input type = "text" name = "task" class = "task-desc" value = "I am the only reason"></div> -->
-        </div>
-</div>
-
 
 
 {% endblock content %}
