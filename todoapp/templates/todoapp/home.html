@@ -17,6 +17,13 @@
                 <div class = "col btn-div">
                     <button class = "task-btn del-btn">Delete</button>
                     <button type = "button" class = "task-btn edit-btn">Edit</button>
+                    
+                    {% if task.completed == 1 %}
+                        <input type = 'checkbox' class = 'task-status' id = 'status' checked>
+
+                    {% else %}
+                        <input type = 'checkbox' class = 'task-status' id = 'status'>
+                    {% endif %}
                 </div>
             </div>
     {% endfor %}

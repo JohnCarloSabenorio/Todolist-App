@@ -35,7 +35,6 @@ def home(request):
     user = request.user
     id = user.id
     tasks = Task.objects.all().filter(user = id).order_by('order')
-
     return render(request, "todoapp/home.html", {'tasks' : tasks})
 
 @login_required

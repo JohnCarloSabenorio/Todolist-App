@@ -71,6 +71,10 @@ body{
     border: none;
     border-radius: .3em;
 }
+
+#status{
+    transform: scale(2);
+}
 @media (max-width: 1000px){
     .todo-div{
         width: 100%;

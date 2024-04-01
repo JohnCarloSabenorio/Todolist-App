@@ -4,9 +4,13 @@ const taskContainer = document.querySelector('.task-div');
 let currentTaskCount = draggables.length;
 let delBtns = document.querySelectorAll('.del-btn');
 let editBtns = document.querySelectorAll('.edit-btn');
+let checkboxes = document.querySelectorAll('.task-status');
 const yesBtn = document.querySelector('.yes-btn');
 const inputTask = document.querySelector('.input-task');
+
 let newTaskCount = 0
+
+// MY TASK: ADD STATUS FUNCTIONALITY
 
 async function saveTasks() {
     taskDesc = document.querySelectorAll('.task-item');
@@ -242,7 +246,7 @@ async function addToDb(addData, newDiv){
 
 async function deleteTask(delete_data, delete_id, btn){
     btn.disabled = true;
-    const response = await fetch('/delTasks', {
+    const response = await fetch('/delTask', {
         method : "POST",
         headers: {
             "X-CSRFToken" : getCookie("csrftoken"),

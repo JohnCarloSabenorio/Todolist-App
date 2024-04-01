@@ -10,6 +10,6 @@ urlpatterns = [
     path("register/", user_views.register, name = "register"),
     path("home/", user_views.home, name = "home"),
     path("savetasks", user_views.saveTasks, name = "save"),
-    path("delTasks" , user_views.deleteTask, name = "delete"),
+    path("delTask" , user_views.deleteTask, name = "delete"),
     path("addTask" , user_views.addTask, name = "add"),
 ]
