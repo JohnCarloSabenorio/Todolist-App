@@ -47,6 +47,7 @@ def saveTasks(request):
             record = Task.objects.get(pk=int(key))
             record.title = task_array[key][0]
             record.order = task_array[key][1]
+            record.completed = task_array[key][2]
             record.save()
 
     return JsonResponse({"status" : "Tasks updated!"})

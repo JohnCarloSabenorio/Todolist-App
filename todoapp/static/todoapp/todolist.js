@@ -12,14 +12,20 @@ let newTaskCount = 0
 
 // MY TASK: ADD STATUS FUNCTIONALITY
 
+checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', saveTasks);
+});
+
 async function saveTasks() {
     taskDesc = document.querySelectorAll('.task-item');
     saveData = {};
 
     taskDesc.forEach((task) => {
         task_title = task.querySelector('.task-desc').value;
+        task_status = task.querySelector('.task-status').checked;
+        console.log(task_status);
         task_order = task.classList.item(4);
-        saveData[task.id] = [task_title, task_order[task_order.length-1]];
+        saveData[task.id] = [task_title, task_order[task_order.length-1], task_status];
     });
 
     data = new FormData();
@@ -141,12 +147,19 @@ function addTask(container){
     editBtn.addEventListener("click", () => {
         task_input = editBtn.parentNode.parentNode.querySelector('.task-desc');
         editTask(task_input, editBtn);
-    });    
+    });  
+
+    //Create status checkbox <input type = 'checkbox' class = 'task-status' id = 'status'>
+    const chkbox = document.createElement('input');
+    chkbox.type = 'checkbox';
+    chkbox.classList.add('task-status');
+    chkbox.id = 'status';
     
     addDelTaskListener(delBtn);
     //Adds the elements to the new div
     btnDiv.appendChild(delBtn);
     btnDiv.appendChild(editBtn);
+    btnDiv.appendChild(chkbox);
     inputDiv.appendChild(newInput);
     newDiv.appendChild(inputDiv);
     newDiv.appendChild(btnDiv);
@@ -159,8 +172,7 @@ function addTask(container){
     addData.append('title', inputTask.value);
     addData.append('order', currentTaskCount);
 
-    addToDb(addData, newDiv);
-
+    addToDb(addData, newDiv, chkbox);
 
 
 
@@ -227,7 +239,7 @@ function getCookie(name) {
 
 
 
-async function addToDb(addData, newDiv){
+async function addToDb(addData, newDiv, chkbox){
     const response = await fetch('/addTask', {
         method : "POST",
         headers: {
@@ -241,6 +253,8 @@ async function addToDb(addData, newDiv){
         inputTask.value = "";
         newDiv.id = data['id'];
 
+        // Add listener after updating the id of the new task
+        chkbox.addEventListener('change', saveTasks);
     });
 }
 
