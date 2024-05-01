@@ -12,9 +12,11 @@ class Task(models.Model):
     title = models.CharField(max_length = 50)
     description = models.CharField(max_length = 70)
     order = models.IntegerField()
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='tasks')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='tasks') # google the related_name parameter
     priority = models.IntegerField(choices=[(1, 'High'), (2, 'Medium'), (3, 'Low')], default=2) 
     deadline = models.DateTimeField(null = True, blank = True) # Allows the task to have no set deadline
     completed = models.BooleanField(default = False)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+
+

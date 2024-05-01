@@ -5,6 +5,7 @@ from .forms import CustomUserform
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Task
+import requests
 import json
 
 # Create your views here.
@@ -72,41 +73,6 @@ def deleteTask(request):
         return JsonResponse({'status' : f"task: '{task.title}' Deleted!"})
     else:
         return redirect('home')
-
-
-    
-    
-# # Checks for errors in usernames
-# def checkUserErrors(username):
-#     registered_users = CustomUser.objects.all()
-#     usernames = [user.username for user in registered_users]
-#     errors = []
-#     regex = r'^[\w_]+$'
-#     if  len(username) < 6 or len(username) > 30:
-#         errors.append("Username must be 6-30 characters long.")
-#     if not re.match(regex, username):
-#         errors.append("Username must only contain letters, numbers, and underscores.")
-#     if username in usernames:
-#         errors.append("Username must be unique.")
-    
-#     return errors
-
-# # Checks for errors in emails
-# def checkEmailErrors(email):
-#     registered_users = CustomUser.objects.all()
-#     email_regex = r"^\S+@\S+\.\S+$"
-#     errors = []     
-#     emails = [user.email for user in registered_users]
-
-#     if not re.match(email_regex, email):
-#         errors.apend("Email must follow the format 'username@domain.tld'")
-
-#     return errors
-
-# def checkPassErrors(pword, pword2):
-#     errors = []
-#     return 
-
 
 
 '''

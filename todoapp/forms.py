@@ -10,6 +10,7 @@ def unique_email_validator(value):
         raise ValidationError("This email address is already in use.")
 
 
+# Try experimenting on this class
 class CustomUserform(UserCreationForm):
     email = forms.EmailField(validators=[unique_email_validator])
     class Meta:
