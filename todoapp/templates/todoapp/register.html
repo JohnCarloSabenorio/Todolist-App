@@ -1,7 +1,7 @@
 {% include 'todoapp/header.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class = "register-div">
+    <div class = "form-div">
         <form action = "{% url 'register' %}" method = "POST">
             {% csrf_token %}
             <fieldset class = "form-group">

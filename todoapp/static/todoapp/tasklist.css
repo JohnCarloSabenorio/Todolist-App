@@ -1,86 +1,88 @@
-body{
-    background: #2264F5;
-    text-align: center;
-    font-size: 18px;
+body {
+  background: #2264f5;
+  text-align: center;
+  font-size: 18px;
 }
-.list-header{
-    color: black;
-}
-
-.todo-div::-webkit-scrollbar{
-    display: none;
+.list-header {
+  color: black;
 }
 
-.task-div{
-    margin-top: .5em;
-
+.todo-div::-webkit-scrollbar {
+  display: none;
 }
 
-.add-btn{
-    background: #4B5875;
-    color: white;
-    border: 2px solid black !important;
-}
-.draggable{
-    margin: .5em;
-    cursor: move;
-}
-.task-item{
-    padding: .5em;
-    margin: 1em;
-    border-radius:.5em;
-    background: #00F55C;
-    border: 2px solid black;
-    font-size: 22px;
+.task-div {
+  margin-top: 0.5em;
 }
 
-.draggable.dragging{
-    opacity: 0.5;
+.add-btn {
+  background: #4b5875;
+  color: white;
+  border: 2px solid black !important;
+}
+.draggable {
+  margin: 0.5em;
+  cursor: move;
+}
+.task-item {
+  padding: 0.5em;
+  margin: 1em;
+  border-radius: 0.5em;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.4) 5px 6px 5px 2px;
+  font-size: 22px;
 }
 
-.task-desc{
-    text-align: center;
+.draggable.dragging {
+  opacity: 0.5;
+}
+
+.task-desc {
+  text-align: center;
+  border: none;
+  width: 100%;
+}
+
+.btn-div {
+  display: flex;
+  text-align: center;
+  justify-content: space-evenly;
+}
+.del-btn {
+  background: red;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 8.6) 2px 3px 0px 2px;
+}
+
+.task-btn {
+  border: none;
+  border-radius: 0.4em;
+  padding: 0.5em;
+  box-shadow: rgba(0, 0, 0, 8.6) 2px 3px 0px 2px;
+}
+
+.taskinp-div {
+  display: flex;
+  align-items: center;
+  border-radius: 0.4em;
+  box-shadow: rgba(0, 0, 0, 8.6) 2px 3px 0px 2px;
+}
+
+.modal-btn {
+  padding: 0.5em;
+  border: none;
+  border-radius: 0.3em;
+  box-shadow: rgba(0, 0, 0, 8.6) 2px 3px 0px 2px;
+}
+
+
+
+#status {
+  transform: scale(2);
+}
+@media (max-width: 1000px) {
+  .todo-div {
     border: none;
-    width: 100%;
+    border-radius: none;
+  }
 }
-
-.btn-div{
-    display:flex;
-    text-align: center;
-    justify-content: space-evenly;
-}
-.del-btn{
-    background: red;
-    color: white;
-
-}
-
-.task-btn{
-    border: none;
-    border-radius:.4em;
-    padding:.5em;
-}
-
-.taskinp-div{
-    display: flex;
-    align-items: center;
-}
-
-.modal-btn{
-    padding: .5em;
-    border: none;
-    border-radius: .3em;
-}
-
-#status{
-    transform: scale(2);
-}
-@media (max-width: 1000px){
-    .todo-div{
-        width: 100%;
-        height: 100%;
-        border: none;
-        border-radius: none;
-    }
-}
-

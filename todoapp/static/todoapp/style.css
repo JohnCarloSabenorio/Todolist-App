@@ -1,59 +1,46 @@
-body,html{
-    margin: 0;
-    padding: 0;
-    background: #2264F5;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background: #2264f5;
 }
 
-.register-div, .form-div{
-    background: #00F55C;
-    padding: 3em;
-    border: 3px solid black;
-    border-radius: .5em;
-    width: 60%;
-    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
-}
-.register-div{
-    margin:auto;
-    margin-top: 2em;
-    margin-bottom: 2em;
-
+.register-div,
+.form-div {
+  background: white;
+  padding: 3em;
+  padding-inline: 5em;
+  border-radius: 0.5em;
+  box-shadow: rgba(0, 0, 0, 0.4) 5px 6px 5px 2px;
 }
 
-
-br{
-    color: black;
+br {
+  color: black;
 }
-.form-div{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.div-header, .redirect-txt, .btn-div{
-    text-align: center;
+.form-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.user-input{
-    width: 90%;
-    border: 1px solid black;
+.div-header,
+.redirect-txt,
+.btn-div {
+  text-align: center;
 }
 
-.input-label{
-    font-weight: bold;
+.user-input {
+  border: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.4) 5px 6px 5px 2px;
 }
 
-.logout-btn{
-    background: none;
-    border: none;
+.input-label {
+  font-weight: bold;
 }
 
-@media (max-width: 850px){
-    .form-div, .register-div{
-        width: 100%;
-        border: none;
-        border-top: 3px solid black;
-        border-bottom: 3px solid black;
-        border-radius: 0; 
-    }
+.logout-btn {
+  background: none;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.4) 5px 6px 5px 2px;
 }

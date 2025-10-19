@@ -82,11 +82,11 @@ AUTH_USER_MODEL = "todoapp.CustomUser" # google this
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'todoproject',
+        'NAME': 'todo',
         'USER': 'root',
         'PASSWORD': 'admin123',
         'HOST': 'localhost', 
-        'PORT': '3307',
+        'PORT': '3306',
     }
 }
 
